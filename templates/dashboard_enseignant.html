@@ -1,0 +1,24 @@
+<div class="sidebar">
+    <h2>EduPlace</h2>
+    <p>Bonjour Prof. {{ user.nom }}</p>
+    <hr>
+    <a href="#" class="btn-action" style="width:100%">+ Créer un Devoir</a>
+</div>
+<div class="main-content">
+    <h1>Gestion des Classes</h1>
+    <div class="grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card">
+            <h3>Mes Élèves</h3>
+            {% for e in eleves %}
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <span>{{ e.nom }} ({{ e.classe }})</span>
+                <a href="/chat/{{ e.id }}" style="color:var(--primary)">Message</a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card">
+            <h3>Notes & Moyennes</h3>
+            <p>Moyenne de classe : 14.5/20</p>
+        </div>
+    </div>
+</div>

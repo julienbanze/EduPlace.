@@ -1,0 +1,25 @@
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2>EduPlace</h2>
+        <p>Création de compte</p>
+        <form method="POST">
+            <select name="role" id="roleSelect" onchange="toggleFields()" class="form-control">
+                <option value="Eleve">Étudiant</option>
+                <option value="Enseignant">Enseignant</option>
+            </select>
+            <input type="text" name="nom" placeholder="Nom complet" class="form-control" required>
+            <input type="email" name="email" placeholder="Email" class="form-control" required>
+            <div id="eleveFields"><input type="text" name="classe" placeholder="Classe (ex: Bac 1 IA)" class="form-control"></div>
+            <div id="profFields" style="display:none;"><input type="text" name="matricule" placeholder="Matricule" class="form-control"></div>
+            <input type="password" name="password" placeholder="Mot de passe" class="form-control" required>
+            <button type="submit" class="btn-primary">S'inscrire</button>
+        </form>
+    </div>
+</div>
+<script>
+    function toggleFields() {
+        let r = document.getElementById("roleSelect").value;
+        document.getElementById("profFields").style.display = (r === "Enseignant") ? "block" : "none";
+        document.getElementById("eleveFields").style.display = (r === "Eleve") ? "block" : "none";
+    }
+</script>

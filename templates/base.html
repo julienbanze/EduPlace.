@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPlace - {% block title %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed w-full top-0 z-50">
+        <a href="/" class="text-2xl font-bold text-blue-700">EduPlace <span class="text-gray-400 text-sm font-normal">| UPL</span></a>
+        <div class="space-x-6">
+            <a href="/dashboard" class="text-gray-600 hover:text-blue-700">Tableau de bord</a>
+            <a href="/login" class="px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition">Connexion</a>
+        </div>
+    </nav>
+    <div class="pt-24 px-4 pb-12 max-w-7xl mx-auto">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
