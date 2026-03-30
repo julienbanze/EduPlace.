@@ -1,40 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>EduPlace | Accueil</title>
-    <style>
-        body {
-            margin: 0; background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif;
-            display: flex; justify-content: center; align-items: center; height: 100vh;
-            background: linear-gradient(45deg, #0f172a 0%, #1e293b 100%);
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.05); padding: 50px; border-radius: 30px;
-            backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);
-            text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            animation: slideIn 1s ease-out;
-        }
-        @keyframes slideIn { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        h1 { font-size: 3em; background: linear-gradient(to right, #818cf8, #c084fc, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn {
-            display: inline-block; padding: 15px 35px; margin: 10px; border-radius: 50px;
-            text-decoration: none; font-weight: bold; transition: 0.4s;
-        }
-        .btn-primary { background: #6366f1; color: white; box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); }
-        .btn-outline { border: 2px solid #ec4899; color: #ec4899; }
-        .btn:hover { transform: scale(1.1) rotate(2deg); }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>EduPlace | Bienvenue</title>
 </head>
-<body>
-    <div class="card">
-        <div style="font-size: 50px;">🎓</div>
-        <h1>EduPlace</h1>
-        <p>Système de Gestion Académique Intelligent</p>
-        <div style="margin-top: 30px;">
-            <a href="/inscription" class="btn btn-primary">Commencer</a>
-            <a href="/admin=julien" class="btn btn-outline">Admin</a>
-        </div>
+<body class="auth-page">
+    <div class="auth-card">
+        <h1>EduPlace IA</h1>
+        <p>La plateforme éducative de demain.</p>
+        <br>
+        <a href="/login" class="btn" style="text-decoration:none; display:block; margin-bottom:10px;">Se connecter</a>
+        <a href="/inscription" class="btn" style="text-decoration:none; display:block; background:#1e293b; border:1px solid #6366f1;">S'inscrire</a>
     </div>
 </body>
 </html>
