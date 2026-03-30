@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "cle_secrete_upl_2026")
 
 # Configuration Neon
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgres://votre_lien_neon_ici")
+DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://neondb_owner:npg_TwHBF0davIf2@ep-wispy-union-am1qz45m-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require")
 
 def get_db_connection():
     try:
