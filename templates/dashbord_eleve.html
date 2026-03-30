@@ -2,34 +2,26 @@
 <html lang="fr">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>EduPlace | Étudiant</title>
+    <title>Espace Étudiant</title>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h2>EduPlace</h2>
-            <p>🎓 Étudiant: {{ session.nom }}</p>
-            <p><small>Classe: {{ session.classe }}</small></p>
-            <nav><br>
-                <a href="/logout" style="color: #ef4444;">Déconnexion</a>
-            </nav>
-        </aside>
-        <main class="main">
-            <h1>Mes cours disponibles</h1>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                {% for c in cours %}
-                <div class="course-card">
-                    <div class="course-media">🎥 Vidéo disponible</div>
-                    <div style="padding: 20px;">
-                        <span class="badge">Leçon</span>
-                        <h3>{{ c[1] }}</h3>
-                        <p>Enseignant: Prof. {{ c[5] }}</p>
-                        <button class="btn" style="width: 100%;">Étudier & Déposer TP</button>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-        </main>
+    <div class="sidebar">
+        <h2>EduPlace IA</h2>
+        <p>🎓 {{ user.nom }}</p>
+        <p><small>Classe : {{ user.classe }}</small></p>
+        <hr>
+        <a href="/logout" style="color:red">Déconnexion</a>
+    </div>
+    <div class="main-content">
+        <h1>Mes Cours ({{ user.classe }})</h1>
+        <div class="course-card">
+            <p>Aucun cours publié pour le moment.</p>
+        </div>
+        <div class="course-card">
+            <h3>Déposer un devoir</h3>
+            <input type="file">
+            <button class="btn">Envoyer le TP</button>
+        </div>
     </div>
 </body>
 </html>
