@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EduPlace</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .welcome-card {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .platform-img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-card">
+        <h1>Bienvenue sur EduPlace</h1>
+        <p>Votre plateforme de gestion académique est maintenant prête.</p>
+        
+        <img src="https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?auto=format&fit=crop&q=80&w=1000" 
+             alt="Bienvenue" class="platform-img">
+
+        <div style="margin-top: 30px;">
+            <a href="/" style="color: #6366f1; text-decoration: none;">← Retour à l'accueil</a>
+        </div>
+    </div>
+</body>
+</html>
