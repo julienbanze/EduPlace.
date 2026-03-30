@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin | EduPlace</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; padding: 30px; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #334155; padding-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+        .user-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+            padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);
+            position: relative; overflow: hidden;
+        }
+        .user-card::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%;
+            background: #6366f1;
+        }
+        .role-tag { font-size: 12px; padding: 4px 10px; border-radius: 20px; background: #334155; }
+        .badge-eleve { color: #22d3ee; }
+        .badge-prof { color: #fbbf24; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Gestion EduPlace</h1>
+        <a href="/" style="color: #94a3b8; text-decoration: none;">Déconnexion</a>
+    </div>
+
+    <div class="grid">
+        {% for user in users %}
+        <div class="user-card">
+            <span class="role-tag {% if user.role == 'Eleve' %}badge-eleve{% else %}badge-prof{% endif %}">
+                {{ user.role }}
+            </span>
+            <h3>{{ user.nom }}</h3>
+            <p style="font-size: 14px; color: #94a3b8;">{{ user.email }}</p>
+            <hr style="border: 0.5px solid #334155;">
+            {% if user.role == 'Eleve' %}
+                <p>Classe: {{ user.classe }}</p>
+                <p>Matricule: {{ user.matricule }}</p>
+            {% else %}
+                <p>Matière: {{ user.matiere }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
