@@ -5,8 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 app = Flask(__name__)
 app.secret_key = "eduplace_ia_2026_key"
 
-# === CONFIGURATION NEON ===
-DATABASE_URL = "postgresql://neondb_owner:npg_TwHBF0davIf2@ep-wispy-union-am1qz45m-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+DATABASE_URL = "TON_LIEN_NEON_ICI"
 
 def get_db_connection():
     try:
@@ -47,12 +46,12 @@ def login():
         conn = get_db_connection()
         if conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, nom, role, classe FROM utilisateurs WHERE email=%s AND password=%s", (email, password))
+            cur.execute("SELECT id, nom, role, classe, matiere FROM utilisateurs WHERE email=%s AND password=%s", (email, password))
             user = cur.fetchone()
             cur.close()
             conn.close()
             if user:
-                session.update({'user_id': user[0], 'nom': user[1], 'role': user[2], 'classe': user[3]})
+                session.update({'user_id': user[0], 'nom': user[1], 'role': user[2], 'classe': user[3], 'matiere': user[4]})
                 return redirect(url_for('plateforme'))
     return render_template('login.html')
 
