@@ -1,13 +1,26 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
-<div class="glass-card">
-    <h1>Espace Enseignant : {{ user.nom }}</h1>
-    <p>Matière : <span style="color: #fbbf24;">{{ user.matiere }}</span></p>
-    <hr style="border: 0.5px solid #334155; margin: 20px 0;">
-    <h3>Actions Rapides</h3>
-    <div style="display: flex; gap: 15px;">
-        <button class="btn-grad">Appel de présence</button>
-        <button class="btn-grad" style="filter: hue-rotate(45deg);">Envoyer un devoir</button>
-    </div>
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <h2>EduPlace Prof</h2>
+        <nav>
+            <a href="#" class="active">Tableau de Bord</a>
+            <a href="#">Créer un Cours</a>
+            <a href="#">Correction Devoirs</a>
+            <a href="#">Chat avec Élèves</a>
+            <a href="/logout" class="logout">Déconnexion</a>
+        </nav>
+    </aside>
+    <main class="content">
+        <div class="glass-card">
+            <h1>Bienvenue, Prof. {{ user.nom }}</h1>
+            <p>Créez vos cours et quiz pour vos promotions.</p>
+        </div>
+        <div class="card-grid">
+            <div class="card"><h3>📽️ Vidéos</h3><p>Gérer les leçons vidéo.</p><button class="btn">Ajouter</button></div>
+            <div class="card"><h3>📄 Documents</h3><p>Partager des PDF/TP.</p><button class="btn">Uploader</button></div>
+            <div class="card"><h3>📊 Résultats</h3><p>Suivre les progrès.</p><button class="btn">Voir</button></div>
+        </div>
+    </main>
 </div>
 {% endblock %}
