@@ -2,33 +2,26 @@
 <html lang="fr">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>EduPlace | Enseignant</title>
+    <title>Espace Enseignant</title>
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <h2>EduPlace</h2>
-            <p>👨‍🏫 Prof. {{ session.nom }}</p>
-            <nav><br>
-                <a href="#" class="btn" style="width: 80%;">+ Nouveau Cours</a><br><br>
-                <a href="/logout" style="color: #ef4444;">Déconnexion</a>
-            </nav>
-        </aside>
-        <main class="main">
-            <h1>Gestion des Cours en Ligne</h1>
-            <div class="course-card" style="padding: 20px;">
-                <h3>Publier une nouvelle leçon</h3>
-                <form action="/publier" method="POST">
-                    <input type="text" name="titre" placeholder="Titre du cours (ex: Algorithmique)">
-                    <input type="text" name="video" placeholder="Lien Vidéo (YouTube)">
-                    <select name="classe_cible">
-                        <option value="Bac 1 IA">Bac 1 IA</option>
-                        <option value="Bac 2 IA">Bac 2 IA</option>
-                    </select>
-                    <button type="submit" class="btn">Mettre en ligne</button>
-                </form>
-            </div>
-        </main>
+    <div class="sidebar">
+        <h2>EduPlace IA</h2>
+        <p>👨‍🏫 {{ user.nom }}</p>
+        <p><small>Matière : {{ user.matiere }}</small></p>
+        <hr>
+        <a href="/logout" style="color:red">Déconnexion</a>
+    </div>
+    <div class="main-content">
+        <h1>Tableau de bord Enseignant</h1>
+        <div class="course-card">
+            <h3>Publier un nouveau cours</h3>
+            <form>
+                <input type="text" placeholder="Titre de la vidéo">
+                <input type="text" placeholder="Lien YouTube / URL">
+                <button type="button" class="btn">Envoyer à la classe</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
