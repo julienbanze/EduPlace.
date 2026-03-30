@@ -1,15 +1,19 @@
 import os
 import psycopg2
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 app = Flask(__name__)
-app.secret_key = "eduplace_secret_2026"
+app.secret_key = "eduplace_ia_2026_pro"
 
-# Remplace par ton lien Neon
+# === CONFIGURATION NEON ===
+# Remplace TON_LIEN_NEON_ICI par ton lien postgres://...
 DATABASE_URL = "postgresql://neondb_owner:npg_TwHBF0davIf2@ep-wispy-union-am1qz45m-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 def get_db_connection():
-    return psycopg2.connect(DATABASE_URL, sslmode='require')
+    try:
+        return psycopg2.connect(DATABASE_URL, sslmode='require')
+    except:
+        return None
 
 @app.route('/')
 def index():
@@ -18,19 +22,54 @@ def index():
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
     if request.method == 'POST':
-        # (Logique d'inscription ici...)
-        return redirect(url_for('plateforme'))
+        nom = request.form.get('nom')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        role = request.form.get('role')
+        promotion = request.form.get('promotion')
+        matricule = request.form.get('matricule')
+        
+        conn = get_db_connection()
+        if conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO utilisateurs (nom, email, password, role, promotion, matricule) VALUES (%s, %s, %s, %s, %s, %s)",
+                        (nom, email, password, role, promotion, matricule))
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect(url_for('login'))
     return render_template('inscription.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        conn = get_db_connection()
+        if conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id, nom, role FROM utilisateurs WHERE email=%s AND password=%s", (email, password))
+            user = cur.fetchone()
+            cur.close()
+            conn.close()
+            if user:
+                session.update({'user_id': user[0], 'nom': user[1], 'role': user[2]})
+                return redirect(url_for('plateforme'))
+    return render_template('login.html')
 
 @app.route('/plateforme')
 def plateforme():
-    # Simulation de cours avec des images cool
-    cours_disponibles = [
-        {"titre": "Intelligence Artificielle", "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995"},
-        {"titre": "Développement Web", "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085"},
-        {"titre": "Base de Données SQL", "img": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d"}
-    ]
-    return render_template('plateforme.html', cours=cours_disponibles)
+    if 'user_id' not in session: return redirect(url_for('login'))
+    if session['role'] == 'Professeur':
+        return render_template('dashboard_enseignant.html', user=session)
+    else:
+        return render_template('dashbord_eleve.html', user=session)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
