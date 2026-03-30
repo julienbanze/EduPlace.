@@ -2,27 +2,41 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Créer un compte - EduPlace</title>
+    <title>EduPlace | Inscription</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h2>Créer un compte</h2>
+<body class="auth-body">
+    <div class="auth-card">
+        <h1>Créer un compte</h1>
         <form action="/inscription" method="POST">
             <input type="text" name="nom" placeholder="Nom complet" required>
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Mot de passe" required>
             
-            <select name="role">
-                <option value="Eleve">Je suis un Élève</option>
-                <option value="Professeur">Je suis un Professeur</option>
+            <select name="role" id="roleSelect" onchange="toggleMatiere()" required>
+                <option value="">Vous êtes ?</option>
+                <option value="Eleve">Élève</option>
+                <option value="Enseignant">Enseignant</option>
             </select>
-            
-            <input type="text" name="promotion" placeholder="Promotion (ex: BAC1)">
-            <input type="text" name="matricule" placeholder="Matricule">
-            
-            <button type="submit">S'inscrire</button>
+
+            <select name="classe" required>
+                <option value="Bac 1 IA">Bac 1 IA</option>
+                <option value="Bac 2 IA">Bac 2 IA</option>
+            </select>
+
+            <input type="text" name="matiere" id="matiereInput" placeholder="Matière enseignée" style="display:none;">
+
+            <button type="submit" class="btn">S'inscrire</button>
         </form>
+        <p>Déjà inscrit ? <a href="/login">Se connecter</a></p>
     </div>
+
+    <script>
+        function toggleMatiere() {
+            var role = document.getElementById("roleSelect").value;
+            var input = document.getElementById("matiereInput");
+            input.style.display = (role === "Enseignant") ? "block" : "none";
+        }
+    </script>
 </body>
 </html>
