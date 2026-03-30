@@ -1,33 +1,35 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="dashboard-container">
-    <aside class="sidebar">
-        <h2>EduPlace Élève</h2>
-        <nav>
-            <a href="#" class="active">Mes Cours</a>
-            <a href="#">Soumettre Devoir</a>
-            <a href="#">Notes & Quiz</a>
-            <a href="#">Messagerie</a>
-            <a href="/logout" class="logout">Déconnexion</a>
-        </nav>
-    </aside>
-    <main class="content">
-        <div class="glass-card" style="background: linear-gradient(135deg, #111827, #312e81);">
-            <h1>Bonjour, {{ user.nom }}</h1>
-            <p>Prêt pour vos cours d'Intelligence Artificielle ?</p>
-        </div>
-        <div class="card-grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995" style="width:100%; border-radius:10px;">
-                <h4>Introduction à l'IA</h4>
-                <button class="btn">Continuer</button>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>EduPlace | Étudiant</title>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>EduPlace</h2>
+            <p>🎓 Étudiant: {{ session.nom }}</p>
+            <p><small>Classe: {{ session.classe }}</small></p>
+            <nav><br>
+                <a href="/logout" style="color: #ef4444;">Déconnexion</a>
+            </nav>
+        </aside>
+        <main class="main">
+            <h1>Mes cours disponibles</h1>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                {% for c in cours %}
+                <div class="course-card">
+                    <div class="course-media">🎥 Vidéo disponible</div>
+                    <div style="padding: 20px;">
+                        <span class="badge">Leçon</span>
+                        <h3>{{ c[1] }}</h3>
+                        <p>Enseignant: Prof. {{ c[5] }}</p>
+                        <button class="btn" style="width: 100%;">Étudier & Déposer TP</button>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d" style="width:100%; border-radius:10px;">
-                <h4>Base de données SQL</h4>
-                <button class="btn">Continuer</button>
-            </div>
-        </div>
-    </main>
-</div>
-{% endblock %}
+        </main>
+    </div>
+</body>
+</html>
