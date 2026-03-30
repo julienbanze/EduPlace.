@@ -1,46 +1,77 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>EduPlace - Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="sidebar">
-        <h2>EduPlace</h2>
-        <hr style="opacity: 0.1;">
-        <p>👤 {{ nom }}</p>
-        <p><small>Mode : {{ role }}</small></p>
-        <nav>
-            <p>🏠 Tableau de bord</p>
-            <p>📚 Mes Cours</p>
-            <p>📩 Messagerie</p>
-            <p>⚙️ Paramètres</p>
-            <a href="/logout" style="color: #ef4444; text-decoration: none;">🚪 Déconnexion</a>
-        </nav>
-    </div>
+import os
+import psycopg2
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 
-    <div class="main-content">
-        <div class="welcome-banner">
-            <h1>Bienvenue sur votre espace {{ role }}</h1>
-            <p>Prêt pour une nouvelle journée d'apprentissage ?</p>
-        </div>
+app = Flask(__name__)
+app.secret_key = "eduplace_full_system_2026"
 
-        <h3>🛠 Vos Fonctionnalités :</h3>
-        <div class="grid-features">
-            {% if role == 'Professeur' %}
-                <div class="card"><h4>➕ Créer un Cours</h4><p>Vidéos, documents et exercices.</p><button class="btn-pro">Lancer</button></div>
-                <div class="card"><h4>📝 Gérer les Devoirs</h4><p>Corriger et noter les élèves.</p><button class="btn-pro">Voir</button></div>
-                <div class="card"><h4>📊 Suivi Progrès</h4><p>Statistiques des résultats.</p><button class="btn-pro">Analyser</button></div>
-            {% else %}
-                <div class="card"><h4>📖 Accès aux Cours</h4><p>Consulter vos documents et vidéos.</p><button class="btn-pro">Ouvrir</button></div>
-                <div class="card"><h4>✍️ Soumettre Devoir</h4><p>Envoyer vos travaux en ligne.</p><button class="btn-pro">Envoyer</button></div>
-                <div class="card"><h4>🏆 Mes Résultats</h4><p>Voir vos notes et badges.</p><button class="btn-pro">Consulter</button></div>
-            {% endif %}
-        </div>
-        
-        <h3 style="margin-top: 40px;">🎬 Ressources à la une :</h3>
-        <img src="https://images.unsplash.com/photo-1501504905953-f831feea43fd?q=80&w=1000" style="width: 100%; height: 300px; object-fit: cover; border-radius: 20px;" alt="Plateforme">
-    </div>
-</body>
-</html>
+# === CONFIGURATION NEON ===
+DATABASE_URL = "postgresql://neondb_owner:npg_TwHBF0davIf2@ep-wispy-union-am1qz45m-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
+def get_db_connection():
+    try:
+        return psycopg2.connect(DATABASE_URL, sslmode='require')
+    except:
+        return None
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/inscription', methods=['GET', 'POST'])
+def inscription():
+    if request.method == 'POST':
+        nom, email, password = request.form.get('nom'), request.form.get('email'), request.form.get('password')
+        role, promo = request.form.get('role'), request.form.get('promotion')
+        conn = get_db_connection()
+        if conn:
+            cur = conn.cursor()
+            cur.execute("INSERT INTO utilisateurs (nom, email, password, role, promotion) VALUES (%s, %s, %s, %s, %s)",
+                        (nom, email, password, role, promo))
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect(url_for('login'))
+    return render_template('inscription.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email, password = request.form.get('email'), request.form.get('password')
+        conn = get_db_connection()
+        if conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id, nom, role FROM utilisateurs WHERE email=%s AND password=%s", (email, password))
+            user = cur.fetchone()
+            cur.close()
+            conn.close()
+            if user:
+                session.update({'user_id': user[0], 'nom': user[1], 'role': user[2]})
+                return redirect(url_for('plateforme'))
+    return render_template('login.html')
+
+@app.route('/plateforme')
+def plateforme():
+    if 'user_id' not in session: return redirect(url_for('login'))
+    
+    conn = get_db_connection()
+    data = {'cours': [], 'messages': []}
+    if conn:
+        cur = conn.cursor()
+        cur.execute("SELECT titre, description FROM cours LIMIT 6")
+        data['cours'] = cur.fetchall()
+        cur.execute("SELECT contenu FROM messages WHERE destinataire_id=%s ORDER BY date_envoi DESC LIMIT 3", (session['user_id'],))
+        data['messages'] = cur.fetchall()
+        cur.close()
+        conn.close()
+
+    return render_template('plateforme.html', user=session, data=data)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
