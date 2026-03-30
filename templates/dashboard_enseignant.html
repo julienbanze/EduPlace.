@@ -1,24 +1,13 @@
-<div class="sidebar">
-    <h2>EduPlace</h2>
-    <p>Bonjour Prof. {{ user.nom }}</p>
-    <hr>
-    <a href="#" class="btn-action" style="width:100%">+ Créer un Devoir</a>
-</div>
-<div class="main-content">
-    <h1>Gestion des Classes</h1>
-    <div class="grid" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-        <div class="card">
-            <h3>Mes Élèves</h3>
-            {% for e in eleves %}
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                <span>{{ e.nom }} ({{ e.classe }})</span>
-                <a href="/chat/{{ e.id }}" style="color:var(--primary)">Message</a>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="card">
-            <h3>Notes & Moyennes</h3>
-            <p>Moyenne de classe : 14.5/20</p>
-        </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="glass-card">
+    <h1>Espace Enseignant : {{ user.nom }}</h1>
+    <p>Matière : <span style="color: #fbbf24;">{{ user.matiere }}</span></p>
+    <hr style="border: 0.5px solid #334155; margin: 20px 0;">
+    <h3>Actions Rapides</h3>
+    <div style="display: flex; gap: 15px;">
+        <button class="btn-grad">Appel de présence</button>
+        <button class="btn-grad" style="filter: hue-rotate(45deg);">Envoyer un devoir</button>
     </div>
 </div>
+{% endblock %}
