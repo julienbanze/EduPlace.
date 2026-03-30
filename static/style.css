@@ -1,19 +1,15 @@
-:root { --primary: #6366f1; --bg: #0b0f1a; --card: #161b2c; --text: #f1f5f9; }
-body { background: var(--bg); color: var(--text); font-family: 'Poppins', sans-serif; margin: 0; }
+:root { --main: #4f46e5; --dark: #0f172a; --card: #1e293b; }
+body { background: var(--dark); color: white; font-family: 'Inter', sans-serif; margin: 0; }
 
-/* Dashboard Layout */
-.dashboard-container { display: flex; height: 100vh; }
-.sidebar { width: 260px; background: #0f172a; padding: 25px; border-right: 1px solid rgba(255,255,255,0.05); }
-.content { flex: 1; padding: 40px; overflow-y: auto; }
+.container { display: flex; min-height: 100vh; }
+.sidebar { width: 280px; background: #020617; padding: 30px; border-right: 1px solid #1e293b; }
+.main { flex: 1; padding: 40px; }
 
-/* Elements */
-.glass-card { background: linear-gradient(135deg, #1e1b4b, #4f46e5); padding: 30px; border-radius: 20px; margin-bottom: 30px; }
-.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-.card { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); }
+.course-card { background: var(--card); border-radius: 15px; overflow: hidden; margin-bottom: 20px; transition: 0.3s; }
+.course-card:hover { transform: scale(1.01); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.course-media { height: 180px; background: #334155; display: flex; align-items: center; justify-content: center; }
 
-.btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; transition: 0.3s; }
-.btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--primary); }
+.btn { background: var(--main); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; }
+.badge { background: #10b981; padding: 5px 12px; border-radius: 20px; font-size: 12px; }
 
-nav a { display: block; color: #94a3b8; text-decoration: none; padding: 15px; border-radius: 8px; margin-bottom: 5px; }
-nav a.active { background: var(--primary); color: white; }
-.logout { color: #ef4444 !important; margin-top: 50px; }
+input, select { background: #1e293b; border: 1px solid #334155; color: white; padding: 12px; border-radius: 8px; width: 100%; margin-bottom: 15px; }
