@@ -1,18 +1,15 @@
 import os
 import psycopg2
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = "eduplace_full_system_2026"
+app.secret_key = "eduplace_secret_2026"
 
-# === CONFIGURATION NEON ===
-DATABASE_URL = "postgresql://neondb_owner:npg_TwHBF0davIf2@ep-wispy-union-am1qz45m-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+# Remplace par ton lien Neon
+DATABASE_URL = "TON_LIEN_NEON_ICI"
 
 def get_db_connection():
-    try:
-        return psycopg2.connect(DATABASE_URL, sslmode='require')
-    except:
-        return None
+    return psycopg2.connect(DATABASE_URL, sslmode='require')
 
 @app.route('/')
 def index():
@@ -21,57 +18,19 @@ def index():
 @app.route('/inscription', methods=['GET', 'POST'])
 def inscription():
     if request.method == 'POST':
-        nom, email, password = request.form.get('nom'), request.form.get('email'), request.form.get('password')
-        role, promo = request.form.get('role'), request.form.get('promotion')
-        conn = get_db_connection()
-        if conn:
-            cur = conn.cursor()
-            cur.execute("INSERT INTO utilisateurs (nom, email, password, role, promotion) VALUES (%s, %s, %s, %s, %s)",
-                        (nom, email, password, role, promo))
-            conn.commit()
-            cur.close()
-            conn.close()
-            return redirect(url_for('login'))
+        # (Logique d'inscription ici...)
+        return redirect(url_for('plateforme'))
     return render_template('inscription.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        email, password = request.form.get('email'), request.form.get('password')
-        conn = get_db_connection()
-        if conn:
-            cur = conn.cursor()
-            cur.execute("SELECT id, nom, role FROM utilisateurs WHERE email=%s AND password=%s", (email, password))
-            user = cur.fetchone()
-            cur.close()
-            conn.close()
-            if user:
-                session.update({'user_id': user[0], 'nom': user[1], 'role': user[2]})
-                return redirect(url_for('plateforme'))
-    return render_template('login.html')
 
 @app.route('/plateforme')
 def plateforme():
-    if 'user_id' not in session: return redirect(url_for('login'))
-    
-    conn = get_db_connection()
-    data = {'cours': [], 'messages': []}
-    if conn:
-        cur = conn.cursor()
-        cur.execute("SELECT titre, description FROM cours LIMIT 6")
-        data['cours'] = cur.fetchall()
-        cur.execute("SELECT contenu FROM messages WHERE destinataire_id=%s ORDER BY date_envoi DESC LIMIT 3", (session['user_id'],))
-        data['messages'] = cur.fetchall()
-        cur.close()
-        conn.close()
-
-    return render_template('plateforme.html', user=session, data=data)
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('index'))
+    # Simulation de cours avec des images cool
+    cours_disponibles = [
+        {"titre": "Intelligence Artificielle", "img": "https://images.unsplash.com/photo-1677442136019-21780ecad995"},
+        {"titre": "Développement Web", "img": "https://images.unsplash.com/photo-1498050108023-c5249f4df085"},
+        {"titre": "Base de Données SQL", "img": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d"}
+    ]
+    return render_template('plateforme.html', cours=cours_disponibles)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
