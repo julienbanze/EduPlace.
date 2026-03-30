@@ -1,16 +1,18 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="glass-card" style="max-width: 400px; margin: auto;">
-    <h2 style="text-align: center;">Connexion EduPlace</h2>
-    <form method="POST">
-        <input type="email" name="email" placeholder="Email" required 
-               style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: #0f172a; color: white; border: 1px solid #334155;">
-        <input type="password" name="password" placeholder="Mot de passe" required 
-               style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; background: #0f172a; color: white; border: 1px solid #334155;">
-        <button type="submit" class="btn-grad" style="width: 100%; margin-top: 10px;">Se connecter</button>
-    </form>
-    <p style="text-align: center; font-size: 14px; margin-top: 15px;">
-        Pas encore de compte ? <a href="/inscription" style="color: #ec4899;">S'inscrire</a>
-    </p>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>EduPlace | Connexion</title>
+</head>
+<body class="auth-page">
+    <div class="auth-card">
+        <h1>Connexion</h1>
+        <form action="/login" method="POST">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <button type="submit" class="btn">Se connecter</button>
+        </form>
+        <p>Pas encore de compte ? <a href="/inscription">S'inscrire</a></p>
+    </div>
+</body>
+</html>
