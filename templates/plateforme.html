@@ -2,40 +2,45 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - EduPlace</title>
+    <title>EduPlace - Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .welcome-card {
-            background: rgba(30, 41, 59, 0.7);
-            padding: 40px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            max-width: 800px;
-            margin: 50px auto;
-        }
-        .platform-img {
-            width: 100%;
-            height: auto;
-            border-radius: 15px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-    </style>
 </head>
 <body>
-    <div class="welcome-card">
-        <h1>Bienvenue sur EduPlace</h1>
-        <p>Votre plateforme de gestion académique est maintenant prête.</p>
-        
-        <img src="https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?auto=format&fit=crop&q=80&w=1000" 
-             alt="Bienvenue" class="platform-img">
+    <div class="sidebar">
+        <h2>EduPlace</h2>
+        <hr style="opacity: 0.1;">
+        <p>👤 {{ nom }}</p>
+        <p><small>Mode : {{ role }}</small></p>
+        <nav>
+            <p>🏠 Tableau de bord</p>
+            <p>📚 Mes Cours</p>
+            <p>📩 Messagerie</p>
+            <p>⚙️ Paramètres</p>
+            <a href="/logout" style="color: #ef4444; text-decoration: none;">🚪 Déconnexion</a>
+        </nav>
+    </div>
 
-        <div style="margin-top: 30px;">
-            <a href="/" style="color: #6366f1; text-decoration: none;">← Retour à l'accueil</a>
+    <div class="main-content">
+        <div class="welcome-banner">
+            <h1>Bienvenue sur votre espace {{ role }}</h1>
+            <p>Prêt pour une nouvelle journée d'apprentissage ?</p>
         </div>
+
+        <h3>🛠 Vos Fonctionnalités :</h3>
+        <div class="grid-features">
+            {% if role == 'Professeur' %}
+                <div class="card"><h4>➕ Créer un Cours</h4><p>Vidéos, documents et exercices.</p><button class="btn-pro">Lancer</button></div>
+                <div class="card"><h4>📝 Gérer les Devoirs</h4><p>Corriger et noter les élèves.</p><button class="btn-pro">Voir</button></div>
+                <div class="card"><h4>📊 Suivi Progrès</h4><p>Statistiques des résultats.</p><button class="btn-pro">Analyser</button></div>
+            {% else %}
+                <div class="card"><h4>📖 Accès aux Cours</h4><p>Consulter vos documents et vidéos.</p><button class="btn-pro">Ouvrir</button></div>
+                <div class="card"><h4>✍️ Soumettre Devoir</h4><p>Envoyer vos travaux en ligne.</p><button class="btn-pro">Envoyer</button></div>
+                <div class="card"><h4>🏆 Mes Résultats</h4><p>Voir vos notes et badges.</p><button class="btn-pro">Consulter</button></div>
+            {% endif %}
+        </div>
+        
+        <h3 style="margin-top: 40px;">🎬 Ressources à la une :</h3>
+        <img src="https://images.unsplash.com/photo-1501504905953-f831feea43fd?q=80&w=1000" style="width: 100%; height: 300px; object-fit: cover; border-radius: 20px;" alt="Plateforme">
     </div>
 </body>
 </html>
