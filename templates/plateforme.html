@@ -2,69 +2,42 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>EduPlace | Dashboard</title>
+    <title>EduPlace | Ma Plateforme</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .course-card:hover { transform: translateY(-10px); }
+        .course-card img { width: 100%; height: 200px; object-fit: cover; }
+        .course-info { padding: 20px; color: #333; }
+    </style>
 </head>
-<body>
-    <div class="sidebar">
-        <h2 style="color: var(--accent)">EduPlace</h2>
-        <div style="margin-bottom: 30px;">
-            <p><strong>{{ user.nom }}</strong> <span class="badge">{{ user.role }}</span></p>
-        </div>
-        <nav>
-            <a href="#">📊 Tableau de Bord</a>
-            <a href="#">📚 Mes Cours</a>
-            <a href="#">📝 Devoirs & Quiz</a>
-            <a href="#">💬 Messagerie</a>
-            <a href="#">📅 Calendrier</a>
-            <a href="/logout" style="color: #ef4444; margin-top: 50px;">🚪 Déconnexion</a>
-        </nav>
-    </div>
-
-    <div class="main">
-        <div class="glass-card" style="background: linear-gradient(135deg, #1e1b4b, #312e81);">
-            <h1>Bienvenue sur votre espace de travail</h1>
-            <p>Ici, vous pouvez gérer vos enseignements et suivre vos objectifs académiques.</p>
-        </div>
-
-        <div class="grid">
-            {% if user.role == 'Professeur' %}
-                <div class="glass-card">
-                    <h3>🛠️ Outils Enseignant</h3>
-                    <button class="btn">Créer un nouveau cours</button>
-                    <p><small>Publiez des vidéos, PDFs ou Quiz.</small></p>
-                    <hr style="opacity: 0.1">
-                    <button class="btn" style="background: #10b981;">Corriger les devoirs</button>
-                </div>
-            {% else %}
-                <div class="glass-card">
-                    <h3>📖 Apprentissage</h3>
-                    <button class="btn">Accéder à mes cours</button>
-                    <p><small>Vous avez 3 nouveaux chapitres disponibles.</small></p>
-                    <hr style="opacity: 0.1">
-                    <button class="btn" style="background: #f59e0b;">Soumettre un travail</button>
-                </div>
-            {% endif %}
-
-            <div class="glass-card">
-                <h3>📬 Messages Récents</h3>
-                {% for msg in data.messages %}
-                    <div style="padding: 10px; border-bottom: 1px solid #1f2937;">{{ msg[0] }}</div>
-                {% endfor %}
-                <button class="btn" style="background: transparent; border: 1px solid var(--accent); margin-top: 10px;">Voir tout</button>
+<body style="background: #f0f2f5; font-family: 'Poppins', sans-serif;">
+    <nav style="background: #6366f1; padding: 20px; color: white; text-align: center;">
+        <h1>Tableau de Bord EduPlace</h1>
+    </nav>
+    
+    <div class="dashboard-grid">
+        {% for c in cours %}
+        <div class="course-card">
+            <img src="{{ c.img }}" alt="Cours">
+            <div class="course-info">
+                <h3>{{ c.titre }}</h3>
+                <button style="background: #6366f1; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">Commencer</button>
             </div>
         </div>
-
-        <h2 style="margin-top: 40px;">📂 Explorateur de Ressources</h2>
-        <div class="grid">
-            {% for c in data.cours %}
-                <div class="glass-card">
-                    <h4>{{ c[0] }}</h4>
-                    <p style="color: #9ca3af; font-size: 14px;">{{ c[1] }}</p>
-                    <a href="#" style="color: var(--accent);">Ouvrir le module →</a>
-                </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
 </body>
 </html>
