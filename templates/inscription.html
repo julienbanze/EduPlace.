@@ -1,25 +1,49 @@
-<div class="auth-wrapper">
-    <div class="auth-card">
-        <h2>EduPlace</h2>
-        <p>Création de compte</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription | EduPlace</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
+        .form-box { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid #334155; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; border-radius: 8px; border: none; background: linear-gradient(to right, #6366f1, #a855f7); color: white; font-weight: bold; cursor: pointer; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2>Créer un compte</h2>
         <form method="POST">
-            <select name="role" id="roleSelect" onchange="toggleFields()" class="form-control">
-                <option value="Eleve">Étudiant</option>
-                <option value="Enseignant">Enseignant</option>
+            <input type="text" name="nom" placeholder="Nom complet" required>
+            <input type="email" name="email" placeholder="Email institutionnel" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            
+            <select name="role" id="roleSelect" onchange="updateFields()">
+                <option value="Eleve">Je suis un Élève</option>
+                <option value="Enseignant">Je suis un Enseignant</option>
             </select>
-            <input type="text" name="nom" placeholder="Nom complet" class="form-control" required>
-            <input type="email" name="email" placeholder="Email" class="form-control" required>
-            <div id="eleveFields"><input type="text" name="classe" placeholder="Classe (ex: Bac 1 IA)" class="form-control"></div>
-            <div id="profFields" style="display:none;"><input type="text" name="matricule" placeholder="Matricule" class="form-control"></div>
-            <input type="password" name="password" placeholder="Mot de passe" class="form-control" required>
-            <button type="submit" class="btn-primary">S'inscrire</button>
+
+            <div id="eleveFields">
+                <input type="text" name="classe" placeholder="Ex: Bac 1 IA">
+                <input type="text" name="matricule" placeholder="N° Matricule">
+            </div>
+
+            <div id="profFields" class="hidden">
+                <input type="text" name="matiere" placeholder="Matière enseignée">
+                <input type="text" name="classe_tenue" placeholder="Classe(s) en charge">
+            </div>
+
+            <button type="submit">S'inscrire</button>
         </form>
     </div>
-</div>
-<script>
-    function toggleFields() {
-        let r = document.getElementById("roleSelect").value;
-        document.getElementById("profFields").style.display = (r === "Enseignant") ? "block" : "none";
-        document.getElementById("eleveFields").style.display = (r === "Eleve") ? "block" : "none";
-    }
-</script>
+
+    <script>
+        function updateFields() {
+            let role = document.getElementById('roleSelect').value;
+            document.getElementById('eleveFields').classList.toggle('hidden', role !== 'Eleve');
+            document.getElementById('profFields').classList.toggle('hidden', role !== 'Enseignant');
+        }
+    </script>
+</body>
+</html>
