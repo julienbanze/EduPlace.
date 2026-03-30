@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = "eduplace_secret_2026"
 
 # Remplace par ton lien Neon
-DATABASE_URL = "TON_LIEN_NEON_ICI"
+DATABASE_URL = "postgresql://neondb_owner:npg_TwHBF0davIf2@ep-wispy-union-am1qz45m-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 def get_db_connection():
     return psycopg2.connect(DATABASE_URL, sslmode='require')
