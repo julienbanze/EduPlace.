@@ -1,26 +1,34 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="dashboard-container">
-    <aside class="sidebar">
-        <h2>EduPlace Prof</h2>
-        <nav>
-            <a href="#" class="active">Tableau de Bord</a>
-            <a href="#">Créer un Cours</a>
-            <a href="#">Correction Devoirs</a>
-            <a href="#">Chat avec Élèves</a>
-            <a href="/logout" class="logout">Déconnexion</a>
-        </nav>
-    </aside>
-    <main class="content">
-        <div class="glass-card">
-            <h1>Bienvenue, Prof. {{ user.nom }}</h1>
-            <p>Créez vos cours et quiz pour vos promotions.</p>
-        </div>
-        <div class="card-grid">
-            <div class="card"><h3>📽️ Vidéos</h3><p>Gérer les leçons vidéo.</p><button class="btn">Ajouter</button></div>
-            <div class="card"><h3>📄 Documents</h3><p>Partager des PDF/TP.</p><button class="btn">Uploader</button></div>
-            <div class="card"><h3>📊 Résultats</h3><p>Suivre les progrès.</p><button class="btn">Voir</button></div>
-        </div>
-    </main>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>EduPlace | Enseignant</title>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>EduPlace</h2>
+            <p>👨‍🏫 Prof. {{ session.nom }}</p>
+            <nav><br>
+                <a href="#" class="btn" style="width: 80%;">+ Nouveau Cours</a><br><br>
+                <a href="/logout" style="color: #ef4444;">Déconnexion</a>
+            </nav>
+        </aside>
+        <main class="main">
+            <h1>Gestion des Cours en Ligne</h1>
+            <div class="course-card" style="padding: 20px;">
+                <h3>Publier une nouvelle leçon</h3>
+                <form action="/publier" method="POST">
+                    <input type="text" name="titre" placeholder="Titre du cours (ex: Algorithmique)">
+                    <input type="text" name="video" placeholder="Lien Vidéo (YouTube)">
+                    <select name="classe_cible">
+                        <option value="Bac 1 IA">Bac 1 IA</option>
+                        <option value="Bac 2 IA">Bac 2 IA</option>
+                    </select>
+                    <button type="submit" class="btn">Mettre en ligne</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
