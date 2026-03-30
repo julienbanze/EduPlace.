@@ -1,41 +1,61 @@
 :root {
     --primary: #6366f1;
-    --secondary: #4f46e5;
-    --accent: #f59e0b;
-    --dark: #0f172a;
-    --light: #f8fafc;
-    --glass: rgba(255, 255, 255, 0.8);
+    --bg: #0f172a;
+    --card: rgba(30, 41, 59, 0.7);
 }
 
-body { font-family: 'Inter', sans-serif; background: var(--light); color: var(--dark); margin: 0; }
-
-.sidebar {
-    width: 280px; height: 100vh; background: var(--dark); color: white;
-    position: fixed; padding: 2rem; box-sizing: border-box;
+body {
+    background: var(--bg);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-.main-content { margin-left: 280px; padding: 3rem; }
-
-.card {
-    background: white; border-radius: 20px; padding: 1.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0;
-    transition: 0.3s; margin-bottom: 1.5rem;
+.container {
+    background: var(--card);
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 350px;
 }
 
-.card:hover { transform: translateY(-5px); }
-
-.badge {
-    padding: 0.5rem 1rem; border-radius: 99px; font-size: 0.8rem;
-    font-weight: 700; background: var(--accent); color: white;
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
 }
 
-.btn-action {
-    background: var(--primary); color: white; border: none;
-    padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer;
-    font-weight: 600; text-decoration: none; display: inline-block;
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 100%;
 }
 
-/* Chat Bubbles */
-.msg { padding: 1rem; border-radius: 15px; margin-bottom: 0.5rem; max-width: 70%; }
-.sent { background: var(--primary); color: white; align-self: flex-end; margin-left: auto; }
-.received { background: #e2e8f0; color: var(--dark); }
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.platform-img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
